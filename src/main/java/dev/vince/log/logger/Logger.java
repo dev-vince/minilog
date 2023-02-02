@@ -1,10 +1,11 @@
 package dev.vince.log.logger;
 
-import dev.vince.log.LoggerManager;
-import dev.vince.log.util.LoggingLevelEnum;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
+
+import dev.vince.log.LoggerManager;
+import dev.vince.log.header.LoggingHeaderEnum;
+import dev.vince.log.util.LoggingLevelEnum;
 
 public class Logger {
     private final Builder builder;
@@ -83,7 +84,7 @@ public class Logger {
     public void postLog(final LoggingLevelEnum level, final String message) {
         if (level.getLevel() >= builder.logLevel) {
             for (final PrintStream output : builder.outputs) {
-                output.println(String.format("[%s] " + builder.format.getLogFormat(), builder.name, builder.format.getLevelFormat(level), message));
+                output.println(builder.header.getDefaultHeader().getHeader() + String.format(builder.format.getLogFormat(), builder.format.getLevelFormat(level), message));
             }
         }
     }
@@ -104,12 +105,24 @@ public class Logger {
         return builder.name;
     }
 
+    public LoggingHeaderEnum getHeader() {
+        return builder.header;
+    }
+
     public void setLogLevel(final int logLevel) {
         builder.logLevel = logLevel;
     }
 
     public void setFormat(final LoggerFormat format) {
         builder.format = format;
+    }
+
+    public void setName(final String name) {
+        builder.name = name;
+    }
+
+    public void setHeader(final LoggingHeaderEnum header) {
+        builder.header = header;
     }
 
     public void addOutput(final PrintStream output) {
@@ -128,6 +141,7 @@ public class Logger {
         private final ArrayList<PrintStream> outputs;
         private String name;
 
+        private LoggingHeaderEnum header;
         private LoggerFormat format;
         private int logLevel;
 
@@ -136,6 +150,7 @@ public class Logger {
             this.name = "Logger";
             this.logLevel = 0;
             this.format = new LoggerFormat.Builder().build();
+            this.header = LoggingHeaderEnum.NONE;
 
             outputs.add(System.out);
         }
@@ -162,6 +177,11 @@ public class Logger {
 
         public Builder withOutput(final PrintStream output) {
             this.outputs.add(output);
+            return this;
+        }
+
+        public Builder withHeader(final LoggingHeaderEnum header) {
+            this.header = header;
             return this;
         }
 

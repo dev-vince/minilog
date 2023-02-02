@@ -2,34 +2,71 @@ package dev.vince.log.hook;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
+import org.reflections.Reflections;
+
+import best.azura.eventbus.core.EventBus;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 import dev.vince.log.event.LoggerEvent;
+import dev.vince.log.hook.api.AbstractHook;
 
 public final class HookManager {
-    protected static final Map<String, AbstractHook> hooks = new HashMap<>();
+    private static final HookManager instance = new HookManager();
+    private static final EventBus eventBus = new EventBus();
 
-    public static void addHook(final AbstractHook hook) {
+    protected final Map<String, AbstractHook> hooks = new HashMap<>();
+
+    private HookManager() {
+        final Reflections reflections = new Reflections();
+        final Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Hook.class);
+
+        System.out.println("Found " + annotated.size() + " hooks");
+        eventBus.register(this);
+
+        for(final Class<?> clazz : annotated) {
+            try {
+                System.out.println("Hook found: " + clazz.getName());
+                addHook((AbstractHook) clazz.newInstance());
+            } catch (final InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void addHook(final AbstractHook hook) {
         hooks.put(hook.getName(), hook);
     }
 
-    public static AbstractHook getHook(final String name) {
+    public AbstractHook getHook(final String name) {
         return hooks.get(name);
     }
 
-    public static void removeHook(final String name) {
+    public void removeHook(final String name) {
         hooks.remove(name);
     }
 
-    public static void removeHook(final AbstractHook hook) {
+    public void removeHook(final AbstractHook hook) {
         hooks.remove(hook.getName());
+    }
+
+    public void clearHooks() {
+        hooks.clear();
+    }
+
+    public void callEvent(final LoggerEvent event) {
+        eventBus.call(event);
     }
 
     @EventHandler()
     private final Listener<LoggerEvent> loggerEventListener = e -> {
-        //TODO: finish itterations
-        //for(final AbstractHook hook : hooks.values())
-            //hook.(e.getLogger());
+        for(final AbstractHook hook : hooks.values()) {
+            hook.hook(e.getLogger(), e.getType());
+        }
     };
+
+    public static HookManager getInstance() {
+        return instance;
+    }
 }

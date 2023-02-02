@@ -6,5 +6,6 @@
         "org.graalvm.*",
         "io.micrometer.shaded.*"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
 }

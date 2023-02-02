@@ -1,20 +1,39 @@
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
-import dev.vince.log.header.LoggingHeaderEnum;
 import dev.vince.log.logger.Logger;
 import dev.vince.log.logger.LoggerFormat;
+import dev.vince.log.util.LoggingLevelEnum;
 
 public class LoggerTester {
     public static void main(String[] args) throws FileNotFoundException {
+        final Logger newLogger = Logger.createLogger()
+                .withName("New Logger")
+                .build();
+
+        final Logger loggerWIthLogLevel = Logger.createLogger()
+                .withName("Logger with log level")
+                .withLogLevel(LoggingLevelEnum.WARN)
+                .build();
+        
+        final Logger loggerWithFormatExample = Logger.createLogger()
+                .withName("Logger with custom format")
+                .withLogLevel(LoggingLevelEnum.WARN)
+                .withFormat(new LoggerFormat.Builder()
+                    .withLogFormat("(%s): %s")// The first %s is the log level and the second is the message, The default format is "%s: %s"
+                    .withLevelFormat(LoggingLevelEnum.WARN, "WARNING") //Changes the format of the log level to WARNING (by default WARN)
+                    .build()) 
+                .build();
+        
         final Logger logger = Logger.createLogger()
-                                    .withName("Logging Example")
-                                    .withFormat(new LoggerFormat.Builder()
-                                            //.withLogFormat("(%s): %s")
-                                            //.withLevelFormat(LoggingLevelEnum.WARN, "WARNING")
-                                            .build())
-                                    //.withOutput(new PrintStream("output.txt"))
-                                    .withHeader(LoggingHeaderEnum.BRACKETED)
-                                    .build();
+                .withName("Logger Example")
+                .withLogLevel(LoggingLevelEnum.WARN)
+                .withFormat(new LoggerFormat.Builder()
+                    .withLogFormat("(%s): %s")// The first %s is the log level and the second is the message, The default format is "%s: %s"
+                    .withLevelFormat(LoggingLevelEnum.WARN, "WARNING") //Changes the format of the log level to WARNING (by default WARN)
+                    .build())
+                .withOutput(new PrintStream("output.txt")) //Will now add all logs to output.txt
+                .build();
 
         logger.trace("This is a trace message");
         logger.debug("This is a debug message");

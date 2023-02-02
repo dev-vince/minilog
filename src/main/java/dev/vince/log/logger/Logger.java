@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.vince.log.LoggerManager;
+import dev.vince.log.event.LoggerEvent;
+import dev.vince.log.event.LoggerEventEnum;
 import dev.vince.log.header.LoggingHeaderEnum;
+import dev.vince.log.hook.HookManager;
 import dev.vince.log.util.LoggingLevelEnum;
 
 public class Logger {
@@ -85,7 +88,11 @@ public class Logger {
     private void postLog(final LoggingLevelEnum level, final String message) {
         if (level.getLevel() >= builder.logLevel) {
             for (final PrintStream output : builder.outputs) {
+                final LoggerEvent event = new LoggerEvent(LoggerEventEnum.PRE, this);
+                HookManager.getInstance().callEvent(null);
                 output.println(builder.header.getDefaultHeader().getHeader(this) + String.format(builder.format.getLogFormat(), builder.format.getLevelFormat(level), message));
+                event.setType(LoggerEventEnum.POST);
+                HookManager.getInstance().callEvent(event);
             }
         }
     }

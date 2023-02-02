@@ -4,6 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <logger name="org.reflections" level="OFF" />
+
     <groupId>dev.vince</groupId>
     <artifactId>minilog</artifactId>
     <version>1.0.0</version>
@@ -32,6 +34,12 @@
             <groupId>best.azura</groupId>
             <artifactId>Azura-Event-Bus</artifactId>
             <version>2.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>0.10.2</version>
         </dependency>
     </dependencies>
 

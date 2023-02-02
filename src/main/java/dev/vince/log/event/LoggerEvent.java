@@ -5,6 +5,7 @@ import dev.vince.log.logger.Logger;
 
 public final class LoggerEvent extends CancellableEvent{
     private LoggerEventEnum type;
+    private String message;
     private final Logger logger;
 
     public LoggerEvent(final LoggerEventEnum type, final Logger logger) {
@@ -20,7 +21,15 @@ public final class LoggerEvent extends CancellableEvent{
         return logger;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public void setType(final LoggerEventEnum type) {
         this.type = type;
+    }
+
+    public void setMessage(final String message) {
+        this.message = message;
     }
 }

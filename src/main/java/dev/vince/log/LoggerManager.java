@@ -26,5 +26,4 @@ public final class LoggerManager {
     public static Logger getLogger(final String name) {
         return loggers.stream().filter(logger -> logger.getName().equals(name)).findFirst().orElse(null);
     }
-
 }

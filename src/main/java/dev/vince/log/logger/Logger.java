@@ -4,39 +4,72 @@ import dev.vince.log.LoggerManager;
 import dev.vince.log.util.LoggingLevelEnum;
 
 import java.io.PrintStream;
-import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Logger {
     private final Builder builder;
 
+    /**
+     * Creates a new Logger instance with the given builder.
+     * @param builder The builder of the logger.
+     * (Precondition: builder != null)
+     * (Post condition: LoggingManager contains the new Logger instance.)
+     */
     public Logger(final Builder builder) {
         this.builder = builder;
         LoggerManager.addLogger(this);
     }
 
+    /**
+     * Sends a message to the logger's output streams
+     * The log be sent with the logging level TRACE.
+     * @param messages the messages to send to the output streams (can be multiple)
+     */
     public void trace(final String... messages) {
         postLog(LoggingLevelEnum.TRACE, messages);
     }
 
+    /**
+     * Sends a message to the logger's output streams
+     * The log be sent with the logging level DEBUG.
+     * @param messages the messages to send to the output streams (can be multiple)
+     */
     public void debug(final String... messages) {
         postLog(LoggingLevelEnum.DEBUG, messages);
     }
 
+    /**
+     * Sends a message to the logger's output streams
+     * The log be sent with the logging level INFO.
+     * @param messages the messages to send to the output streams (can be multiple)
+     */
     public void info(final String... messages) {
         postLog(LoggingLevelEnum.INFO, messages);
     }
 
+    /**
+     * Sends a message to the logger's output streams
+     * The log be sent with the logging level WARN.
+     * @param messages the messages to send to the output streams (can be multiple)
+     */
     public void warn(final String... messages) {
         postLog(LoggingLevelEnum.WARN, messages);
     }
 
+    /**
+     * Sends a message to the logger's output streams
+     * The log be sent with the logging level ERROR.
+     * @param messages the messages to send to the output streams (can be multiple)
+     */
     public void error(final String... messages) {
         postLog(LoggingLevelEnum.ERROR, messages);
     }
 
+    /**
+     * Sends a message to the logger's output streams
+     * The log be sent with the logging level FATAL.
+     * @param messages the messages to send to the output streams (can be multiple)
+     */
     public void fatal(final String... messages) {
         postLog(LoggingLevelEnum.FATAL, messages);
     }
@@ -100,7 +133,7 @@ public class Logger {
 
         public Builder() {
             this.outputs = new ArrayList<>();
-            this.name = ManagementFactory.getRuntimeMXBean().getName();
+            this.name = "Logger";
             this.logLevel = 0;
             this.format = new LoggerFormat.Builder().build();
 
@@ -119,6 +152,11 @@ public class Logger {
 
         public Builder withLogLevel(final int logLevel) {
             this.logLevel = logLevel;
+            return this;
+        }
+
+        public Builder withLogLevel(final LoggingLevelEnum logLevel) {
+            this.logLevel = logLevel.getLevel();
             return this;
         }
 

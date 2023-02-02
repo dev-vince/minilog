@@ -1,9 +1,8 @@
+import java.io.FileNotFoundException;
+
+import dev.vince.log.header.LoggingHeaderEnum;
 import dev.vince.log.logger.Logger;
 import dev.vince.log.logger.LoggerFormat;
-import dev.vince.log.util.LoggingLevelEnum;
-
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
 
 public class LoggerTester {
     public static void main(String[] args) throws FileNotFoundException {
@@ -13,7 +12,8 @@ public class LoggerTester {
                                             //.withLogFormat("(%s): %s")
                                             //.withLevelFormat(LoggingLevelEnum.WARN, "WARNING")
                                             .build())
-                                    .withOutput(new PrintStream("output.txt"))
+                                    //.withOutput(new PrintStream("output.txt"))
+                                    .withHeader(LoggingHeaderEnum.BRACKETED)
                                     .build();
 
         logger.trace("This is a trace message");

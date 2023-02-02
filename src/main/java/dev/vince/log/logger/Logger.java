@@ -2,6 +2,7 @@ package dev.vince.log.logger;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import dev.vince.log.LoggerManager;
 import dev.vince.log.header.LoggingHeaderEnum;
@@ -81,15 +82,15 @@ public class Logger {
         }
     }
 
-    public void postLog(final LoggingLevelEnum level, final String message) {
+    private void postLog(final LoggingLevelEnum level, final String message) {
         if (level.getLevel() >= builder.logLevel) {
             for (final PrintStream output : builder.outputs) {
-                output.println(builder.header.getDefaultHeader().getHeader() + String.format(builder.format.getLogFormat(), builder.format.getLevelFormat(level), message));
+                output.println(builder.header.getDefaultHeader().getHeader(this) + String.format(builder.format.getLogFormat(), builder.format.getLevelFormat(level), message));
             }
         }
     }
 
-    public ArrayList<PrintStream> getOutputs() {
+    public List<PrintStream> getOutputs() {
         return builder.outputs;
     }
 

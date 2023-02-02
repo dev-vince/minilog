@@ -1,9 +1,12 @@
 package dev.vince.log.header;
 
+import dev.vince.log.header.impl.BracketedHeader;
 import dev.vince.log.header.impl.NoneHeader;
 
 public enum LoggingHeaderEnum {
-    NONE(NoneHeader.class);
+    NONE(NoneHeader.class),
+    BRACKETED(BracketedHeader.class),
+    SIMPLE_NAME(BracketedHeader.class);
 
     private final Class<?> defaultHeader;
 

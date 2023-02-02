@@ -6,7 +6,7 @@
 
     <groupId>dev.vince</groupId>
     <artifactId>minilog</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <licenses>
         <license>
@@ -19,6 +19,21 @@
     <scm>
         <url>https://svn.apache.org/viewvc/maven</url>
     </scm>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>best.azura</groupId>
+            <artifactId>Azura-Event-Bus</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+    </dependencies>
 
     <distributionManagement>
         <repository>

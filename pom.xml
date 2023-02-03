@@ -7,11 +7,6 @@
     <groupId>dev.vince</groupId>
     <artifactId>minilog</artifactId>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>logger-example</module>
-    </modules>
 
     <repositories>
         <repository>

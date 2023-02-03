@@ -6,13 +6,12 @@ MiniLog is a simple logging library for Java 17+. It is designed to be simple to
 
 #### Maven
 ```xml
-<distributionManagement>
+<repositories>
     <repository>
         <id>github</id>
-        <name>GitHub OWNER Apache Maven Packages</name>
         <url>https://maven.pkg.github.com/dev-vince/minilog</url>
     </repository>
-</distributionManagement>
+</repositories>
 
 <dependencies>
     <dependency>

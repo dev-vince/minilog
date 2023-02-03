@@ -22,6 +22,7 @@ public class Logger {
      */
     public Logger(final Builder builder) {
         this.builder = builder;
+        HookManager.getInstance().loadHooks();
         LoggerManager.addLogger(this);
     }
 
@@ -89,7 +90,7 @@ public class Logger {
         if (level.getLevel() >= builder.logLevel) {
             for (final PrintStream output : builder.outputs) {
                 final LoggerEvent event = new LoggerEvent(LoggerEventEnum.PRE, this);
-                HookManager.getInstance().callEvent(null);
+                HookManager.getInstance().callEvent(event);
                 output.println(builder.header.getDefaultHeader().getHeader(this) + String.format(builder.format.getLogFormat(), builder.format.getLevelFormat(level), message));
                 event.setType(LoggerEventEnum.POST);
                 HookManager.getInstance().callEvent(event);

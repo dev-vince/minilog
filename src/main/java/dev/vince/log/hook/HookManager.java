@@ -1,10 +1,11 @@
 package dev.vince.log.hook;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 
-import org.reflections.Reflections;
+import dev.vince.log.util.ClassUtil;
 
 import best.azura.eventbus.core.EventBus;
 import best.azura.eventbus.handler.EventHandler;
@@ -13,24 +14,24 @@ import dev.vince.log.event.LoggerEvent;
 import dev.vince.log.hook.api.AbstractHook;
 
 public final class HookManager {
-    private static final HookManager instance = new HookManager();
     private static final EventBus eventBus = new EventBus();
+    private static final HookManager instance = new HookManager();
 
-    protected final Map<String, AbstractHook> hooks = new HashMap<>();
+    private final Map<String, AbstractHook> hooks = new HashMap<>();
 
     private HookManager() {
-        final Reflections reflections = new Reflections();
-        final Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(Hook.class);
-
-        System.out.println("Found " + annotated.size() + " hooks");
         eventBus.register(this);
+    }
 
-        for(final Class<?> clazz : annotated) {
-            try {
-                System.out.println("Hook found: " + clazz.getName());
-                addHook((AbstractHook) clazz.newInstance());
-            } catch (final InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
+    public void loadHooks() {
+        this.hooks.clear();
+        for (Class<?> clazz : ClassUtil.getClassesRunning()) {
+            if (clazz.isAnnotationPresent(Hook.class)) {
+                try {
+                    addHook((AbstractHook) clazz.newInstance());
+                } catch (final InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

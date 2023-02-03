@@ -18,7 +18,7 @@ MiniLog is a simple logging library for Java 17+. It is designed to be simple to
     <dependency>
         <groupId>dev.vince</groupId>
         <artifactId>minilog</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-0</version>
     </dependency>
 </dependencies>
 ```

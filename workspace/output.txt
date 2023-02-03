@@ -1,0 +1,9 @@
+(WARNING): This is a warning message
+(ERROR): This is an error message
+(FATAL): This is a fatal message
+(WARNING): This is a warning message
+(WARNING): This is another warning message
+(ERROR): This is an error message
+(ERROR): This is another error message
+(FATAL): This is a fatal message
+(FATAL): This is another fatal message

@@ -1,7 +1,7 @@
 package dev.vince.log.header.impl;
 
 import dev.vince.log.header.AbstractHeader;
-import dev.vince.log.logger.Logger;
+import dev.vince.log.text.ParsingBean;
 
 public final class NoneHeader extends AbstractHeader {
     public NoneHeader() {
@@ -9,7 +9,7 @@ public final class NoneHeader extends AbstractHeader {
     }
 
     @Override
-    public String getHeader(final Logger logger) {
+    public String getHeader(final ParsingBean data) {
         return "";
     }
 

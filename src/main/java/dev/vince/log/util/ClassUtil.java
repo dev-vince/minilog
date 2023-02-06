@@ -1,13 +1,10 @@
 package dev.vince.log.util;
 
-import dev.vince.log.hook.Hook;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.Objects;
 
 public final class ClassUtil {
@@ -30,19 +27,21 @@ public final class ClassUtil {
     }
 
     private static void verifyClass(final File file, final ArrayList<Class<?>> classes, final File root) {
-        try {
-            if (file.isDirectory()) {
-                for (File f : Objects.requireNonNull(file.listFiles())) {
-                    verifyClass(f, classes, root);
-                }
-            } else if (file.isFile() && file.getName().endsWith(".class")) {
-                final String className = file.getPath().replace(".class", "").replace(root.getPath() + "\\","").replace("/", ".").replace("\\", ".");
-                final Class<?> clazz = Class.forName(className);
-
-                classes.add(clazz);
+        if (file.isDirectory()) {
+            for (File f : Objects.requireNonNull(file.listFiles())) {
+                verifyClass(f, classes, root);
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } else if (file.isFile() && file.getName().endsWith(".class")) {
+            final String className = file.getPath().replace(".class", "").replace(root.getPath() + "\\","").replace(root.getPath() + "/", "").replace("/", ".").replace("\\", ".");
+
+            try {
+                final Class<?> clazz = Class.forName(className);
+    
+                classes.add(clazz);
+            } catch (final ClassNotFoundException e) {
+                System.out.println("Class not found: " + className);
+            }
         }
+        
     }
 }

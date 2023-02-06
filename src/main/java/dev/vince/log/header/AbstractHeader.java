@@ -1,12 +1,13 @@
 package dev.vince.log.header;
 
-import dev.vince.log.logger.Logger;
+import dev.vince.log.text.ParsingBean;
 
+@Deprecated
 public abstract class AbstractHeader {
     private final String defaultHeader;
     private String currentHeader;
 
-    public AbstractHeader(final String defaultHeader) {
+    protected AbstractHeader(final String defaultHeader) {
         this.defaultHeader = defaultHeader;
         this.currentHeader = defaultHeader;
     }
@@ -23,5 +24,5 @@ public abstract class AbstractHeader {
         this.currentHeader = header;
     }
 
-    public abstract String getHeader(final Logger logger);
+    public abstract String getHeader(final ParsingBean data);
 }

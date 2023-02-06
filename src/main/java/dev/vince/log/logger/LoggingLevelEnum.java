@@ -1,4 +1,4 @@
-package dev.vince.log.util;
+package dev.vince.log.logger;
 
 public enum LoggingLevelEnum {
     TRACE(0, "LOG"),

@@ -1,17 +1,14 @@
 package dev.vince.log.hook;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
-import dev.vince.log.util.ClassUtil;
+import java.util.HashMap;
+import java.util.Map;
 
 import best.azura.eventbus.core.EventBus;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
 import dev.vince.log.event.LoggerEvent;
 import dev.vince.log.hook.api.AbstractHook;
+import dev.vince.log.util.ClassUtil;
 
 public final class HookManager {
     private static final EventBus eventBus = new EventBus();

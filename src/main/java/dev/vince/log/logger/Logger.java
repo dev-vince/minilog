@@ -7,12 +7,16 @@ import java.util.List;
 import dev.vince.log.LoggerManager;
 import dev.vince.log.event.LoggerEvent;
 import dev.vince.log.event.LoggerEventEnum;
-import dev.vince.log.header.LoggingHeaderEnum;
+import dev.vince.log.format.LoggerFormat;
+import dev.vince.log.header.AbstractHeader;
+import dev.vince.log.header.impl.NoneHeader;
 import dev.vince.log.hook.HookManager;
-import dev.vince.log.util.LoggingLevelEnum;
+import dev.vince.log.text.ParsingBean;
 
 public class Logger {
     private final Builder builder;
+    
+    private int messageCount;
 
     /**
      * Creates a new Logger instance with the given builder.
@@ -90,8 +94,16 @@ public class Logger {
         if (level.getLevel() >= builder.logLevel) {
             for (final PrintStream output : builder.outputs) {
                 final LoggerEvent event = new LoggerEvent(LoggerEventEnum.PRE, this);
+                final ParsingBean bean = new ParsingBean();
+
+                bean.setInput(message);
+                bean.setLogger(this);
+                bean.setLevel(level);
+
+                messageCount++;
+
                 HookManager.getInstance().callEvent(event);
-                output.println(builder.header.getDefaultHeader().getHeader(this) + String.format(builder.format.getLogFormat(), builder.format.getLevelFormat(level), message));
+                output.println(builder.format.getFormat(bean));
                 event.setType(LoggerEventEnum.POST);
                 HookManager.getInstance().callEvent(event);
             }
@@ -114,7 +126,12 @@ public class Logger {
         return builder.name;
     }
 
-    public LoggingHeaderEnum getHeader() {
+    public int getMessageCount() {
+        return messageCount;
+    }
+
+    @Deprecated        
+    public AbstractHeader getHeader() {
         return builder.header;
     }
 
@@ -130,7 +147,8 @@ public class Logger {
         builder.name = name;
     }
 
-    public void setHeader(final LoggingHeaderEnum header) {
+    @Deprecated        
+    public void setHeader(final AbstractHeader header) {
         builder.header = header;
     }
 
@@ -150,7 +168,7 @@ public class Logger {
         private final ArrayList<PrintStream> outputs;
         private String name;
 
-        private LoggingHeaderEnum header;
+        private AbstractHeader header;
         private LoggerFormat format;
         private int logLevel;
 
@@ -159,7 +177,7 @@ public class Logger {
             this.name = "Logger";
             this.logLevel = 0;
             this.format = new LoggerFormat.Builder().build();
-            this.header = LoggingHeaderEnum.NONE;
+            this.header = new NoneHeader();
 
             outputs.add(System.out);
         }
@@ -189,7 +207,8 @@ public class Logger {
             return this;
         }
 
-        public Builder withHeader(final LoggingHeaderEnum header) {
+        @Deprecated        
+        public Builder withHeader(final AbstractHeader header) {
             this.header = header;
             return this;
         }

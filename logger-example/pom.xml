@@ -9,11 +9,11 @@
     <version>1.0.0</version>
 
     <repositories>
-        <repository>
-            <id>github</id>
-            <url>https://maven.pkg.github.com/dev-vince/minilog</url>
-        </repository>
-    </repositories>
+		<repository>
+		    <id>jitpack.io</id>
+		    <url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -23,10 +23,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>dev.vince</groupId>
-            <artifactId>minilog</artifactId>
-            <version>1.0.0</version>
-        </dependency>
+	        <groupId>com.github.dev-vince</groupId>
+	        <artifactId>minilog</artifactId>
+	        <version>Tag</version>
+	    </dependency>
     </dependencies>
 
 </project>

@@ -1,9 +1,11 @@
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
+import dev.vince.log.format.LoggerFormat;
+import dev.vince.log.header.impl.CustomHeader;
 import dev.vince.log.logger.Logger;
-import dev.vince.log.logger.LoggerFormat;
-import dev.vince.log.util.LoggingLevelEnum;
+import dev.vince.log.logger.LoggingLevelEnum;
+import dev.vince.log.text.TextFormattingEnum;
 
 public class LoggerTester {
     public static void main(String[] args) throws FileNotFoundException {
@@ -28,13 +30,15 @@ public class LoggerTester {
         final Logger logger = Logger.createLogger()
                 .withName("Logger Example")
                 .withLogLevel(LoggingLevelEnum.WARN)
+                .withHeader(new CustomHeader(TextFormattingEnum.LOGGING_LEVEL + " " + TextFormattingEnum.NAME + " " + TextFormattingEnum.MESSAGE_COUNT))
                 .withFormat(new LoggerFormat.Builder()
-                    .withLogFormat("(%s): %s")// The first %s is the log level and the second is the message, The default format is "%s: %s"
+                    .withLogFormat("%N %H:%m:%s %Y-%M-%D     : %i")// The first %s is the log level and the second is the message, The default format is "%s: %s"
                     .withLevelFormat(LoggingLevelEnum.WARN, "WARNING") //Changes the format of the log level to WARNING (by default WARN)
                     .build())
                 .withOutput(new PrintStream("output.txt")) //Will now add all logs to output.txt
                 .build();
 
+                /* 
         logger.trace("This is a trace message");
         logger.debug("This is a debug message");
         logger.info("This is an info message");
@@ -50,5 +54,8 @@ public class LoggerTester {
         logger.fatal("This is a fatal message", "This is another fatal message");
 
         logger.info("Line 1","Line 2","Line 3");
+        */
+
+        logger.error("This is an error message");
     }
 }

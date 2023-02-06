@@ -1,7 +1,7 @@
 package dev.vince.log.header.impl;
 
 import dev.vince.log.header.AbstractHeader;
-import dev.vince.log.logger.Logger;
+import dev.vince.log.text.ParsingBean;
 
 public final class BracketedHeader extends AbstractHeader{
     public BracketedHeader() {
@@ -9,8 +9,8 @@ public final class BracketedHeader extends AbstractHeader{
     }
 
     @Override
-    public String getHeader(final Logger logger) {
-        return String.format(this.getDefaultHeader(), logger.getName());
+    public String getHeader(final ParsingBean data) {
+        return String.format(this.getDefaultHeader(), data.getLogger().getName());
     }
     
 }

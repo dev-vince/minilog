@@ -1,9 +1,11 @@
-package dev.vince.log.logger;
-
-import dev.vince.log.util.LoggingLevelEnum;
+package dev.vince.log.format;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import dev.vince.log.logger.LoggingLevelEnum;
+import dev.vince.log.text.ParsingBean;
+import dev.vince.log.util.StringParser;
 
 public final class LoggerFormat {
     private final Builder builder;
@@ -28,6 +30,10 @@ public final class LoggerFormat {
         return builder.levelFormats.get(level);
     }
 
+    public String getFormat(final ParsingBean data) {
+        return StringParser.parse(data, builder.logFormat).getInput();
+    }
+    
     public LoggerFormat create() {
         return this;
     }
@@ -38,7 +44,7 @@ public final class LoggerFormat {
 
         public Builder() {
             this.levelFormats = new HashMap<>();
-            this.logFormat = "%s: %s";
+            this.logFormat = "%L: %i";
             for (final LoggingLevelEnum level : LoggingLevelEnum.values()) {
                 levelFormats.put(level, level.getDefaultFormat());
             }

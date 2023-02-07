@@ -1,6 +1,4 @@
-package dev.vince.log;
-
-import dev.vince.log.logger.Logger;
+package dev.vince.log.logger.api;
 
 import java.util.ArrayList;
 

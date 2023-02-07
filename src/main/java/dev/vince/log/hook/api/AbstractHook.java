@@ -2,7 +2,7 @@ package dev.vince.log.hook.api;
 
 import dev.vince.log.event.LoggerEventEnum;
 import dev.vince.log.hook.HookManager;
-import dev.vince.log.logger.Logger;
+import dev.vince.log.logger.api.Logger;
 
 public abstract class AbstractHook {
     private final String name;

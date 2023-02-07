@@ -1,4 +1,6 @@
-package dev.vince.log.text;
+package dev.vince.log.text.api;
+
+import dev.vince.log.text.ParsingBean;
 
 public abstract class AbstractTextFormat {
     private final String name;

@@ -1,7 +1,7 @@
 package dev.vince.log.event;
 
 import best.azura.eventbus.events.CancellableEvent;
-import dev.vince.log.logger.Logger;
+import dev.vince.log.logger.api.Logger;
 
 public final class LoggerEvent extends CancellableEvent{
     private LoggerEventEnum type;

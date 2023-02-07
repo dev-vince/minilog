@@ -1,7 +1,7 @@
 package dev.vince.log.text.impl;
 
-import dev.vince.log.text.AbstractTextFormat;
 import dev.vince.log.text.ParsingBean;
+import dev.vince.log.text.api.AbstractTextFormat;
 
 public final class InputFormat extends AbstractTextFormat {
     public InputFormat() {

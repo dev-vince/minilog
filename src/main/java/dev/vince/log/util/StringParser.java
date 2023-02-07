@@ -1,8 +1,8 @@
 package dev.vince.log.util;
 
-import dev.vince.log.text.AbstractTextFormat;
 import dev.vince.log.text.ParsingBean;
 import dev.vince.log.text.TextFormattingEnum;
+import dev.vince.log.text.api.AbstractTextFormat;
 
 public final class StringParser {
     public static ParsingBean parse(final ParsingBean data){

@@ -1,4 +1,4 @@
-package dev.vince.log.format;
+package dev.vince.log.logger.api;
 
 import java.util.HashMap;
 import java.util.Map;

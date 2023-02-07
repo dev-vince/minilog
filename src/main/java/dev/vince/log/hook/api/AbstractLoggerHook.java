@@ -1,6 +1,6 @@
 package dev.vince.log.hook.api;
 
-import dev.vince.log.logger.Logger;
+import dev.vince.log.logger.api.Logger;
 
 public abstract class AbstractLoggerHook extends AbstractHook{
     private Logger logger;

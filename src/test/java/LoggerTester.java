@@ -1,10 +1,10 @@
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 
-import dev.vince.log.format.LoggerFormat;
 import dev.vince.log.header.impl.CustomHeader;
-import dev.vince.log.logger.Logger;
 import dev.vince.log.logger.LoggingLevelEnum;
+import dev.vince.log.logger.api.Logger;
+import dev.vince.log.logger.api.LoggerFormat;
 import dev.vince.log.text.TextFormattingEnum;
 
 public class LoggerTester {

@@ -2,8 +2,8 @@ package dev.vince.log.text.impl.time;
 
 import java.time.LocalDateTime;
 
-import dev.vince.log.text.AbstractTextFormat;
 import dev.vince.log.text.ParsingBean;
+import dev.vince.log.text.api.AbstractTextFormat;
 
 public final class HourFormat extends AbstractTextFormat {
     public HourFormat() {

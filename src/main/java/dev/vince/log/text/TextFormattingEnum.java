@@ -3,6 +3,7 @@ package dev.vince.log.text;
 import java.util.ArrayList;
 import java.util.List;
 
+import dev.vince.log.text.api.AbstractTextFormat;
 import dev.vince.log.text.impl.InputFormat;
 import dev.vince.log.text.impl.date.DayFormat;
 import dev.vince.log.text.impl.date.DayTextFormat;
@@ -40,11 +41,6 @@ public enum TextFormattingEnum {
             FormattingCacheManager.registerFormat(instance);
         } catch (final InstantiationException | IllegalAccessException e) {
             throw new RuntimeException("Error while creating a new instance of " + clazz.getName() + "!");
-        }
-
-        System.out.println();
-        for(AbstractTextFormat format : FormattingCacheManager.getFormats()) {
-            System.out.println(format.getKey() + " - " + format.getDescription());
         }
     }
 

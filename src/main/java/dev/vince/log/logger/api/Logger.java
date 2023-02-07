@@ -1,16 +1,15 @@
-package dev.vince.log.logger;
+package dev.vince.log.logger.api;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.vince.log.LoggerManager;
 import dev.vince.log.event.LoggerEvent;
 import dev.vince.log.event.LoggerEventEnum;
-import dev.vince.log.format.LoggerFormat;
 import dev.vince.log.header.AbstractHeader;
 import dev.vince.log.header.impl.NoneHeader;
 import dev.vince.log.hook.HookManager;
+import dev.vince.log.logger.LoggingLevelEnum;
 import dev.vince.log.text.ParsingBean;
 
 public class Logger {
@@ -223,6 +222,44 @@ public class Logger {
     }
 
     public static Logger getLogger(final String name) {
-        return  LoggerManager.getLoggersByName(name).get(0);
+        return LoggerCacheManager.getInstance().hasLogger(name) ?
+                LoggerCacheManager.getInstance().getLogger(name) :
+                Logger.createLogger().withName(name).build();
+    }
+
+    public static class LoggerCacheManager {
+        private static final LoggerCacheManager instance = new LoggerCacheManager();
+
+        private final ArrayList<Logger> loggerCache = new ArrayList<>();
+        
+        private LoggerCacheManager() {}
+        
+        public void addLogger(final Logger logger) {
+            loggerCache.add(logger);
+        }
+
+        public void removeLogger(final Logger logger) {
+            loggerCache.remove(logger);
+        }
+
+        public void clearCache() {
+            loggerCache.clear();
+        }
+
+        public ArrayList<Logger> getCache() {
+            return loggerCache;
+        }
+
+        public boolean hasLogger(final String name){
+            return loggerCache.stream().anyMatch(logger -> logger.getName().equals(name));
+        }
+
+        public Logger getLogger(final String name) {
+            return loggerCache.stream().filter(logger -> logger.getName().equals(name)).findFirst().orElse(null);
+        }
+
+        public static LoggerCacheManager getInstance() {
+            return instance;
+        }
     }
 }

@@ -1,7 +1,7 @@
 package dev.vince.log.text;
 
-import dev.vince.log.logger.Logger;
 import dev.vince.log.logger.LoggingLevelEnum;
+import dev.vince.log.logger.api.Logger;
 import lombok.Data;
 
 @Data

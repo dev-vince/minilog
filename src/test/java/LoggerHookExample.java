@@ -1,8 +1,8 @@
-import dev.vince.log.LoggerManager;
 import dev.vince.log.event.LoggerEventEnum;
 import dev.vince.log.hook.Hook;
 import dev.vince.log.hook.api.AbstractLoggerHook;
-import dev.vince.log.logger.Logger;
+import dev.vince.log.logger.api.Logger;
+import dev.vince.log.logger.api.LoggerManager;
 
 @Hook
 public class LoggerHookExample extends AbstractLoggerHook {

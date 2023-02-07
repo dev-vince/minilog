@@ -2,8 +2,8 @@ package dev.vince.log.text.impl.date;
 
 import java.time.LocalDate;
 
-import dev.vince.log.text.AbstractTextFormat;
 import dev.vince.log.text.ParsingBean;
+import dev.vince.log.text.api.AbstractTextFormat;
 
 public final class DayFormat extends AbstractTextFormat{
     public DayFormat() {

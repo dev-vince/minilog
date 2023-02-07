@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dev.vince.log.logger.LoggingLevelEnum;
-import dev.vince.log.text.ParsingBean;
-import dev.vince.log.util.StringParser;
+import dev.vince.log.util.parse.Parser;
+import dev.vince.log.util.parse.ParsingBean;
 
 public final class LoggerFormat {
     private final Builder builder;
@@ -31,7 +31,7 @@ public final class LoggerFormat {
     }
 
     public String getFormat(final ParsingBean data) {
-        return StringParser.parse(data, builder.logFormat).getInput();
+        return Parser.parse(data, builder.logFormat).getInput();
     }
     
     public LoggerFormat create() {

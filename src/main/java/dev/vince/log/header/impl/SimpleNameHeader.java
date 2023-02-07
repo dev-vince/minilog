@@ -1,7 +1,7 @@
 package dev.vince.log.header.impl;
 
 import dev.vince.log.header.AbstractHeader;
-import dev.vince.log.text.ParsingBean;
+import dev.vince.log.util.parse.ParsingBean;
 
 public final class SimpleNameHeader extends AbstractHeader{
     public SimpleNameHeader() {

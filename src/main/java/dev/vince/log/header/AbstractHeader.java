@@ -1,6 +1,6 @@
 package dev.vince.log.header;
 
-import dev.vince.log.text.ParsingBean;
+import dev.vince.log.util.parse.ParsingBean;
 
 @Deprecated
 public abstract class AbstractHeader {

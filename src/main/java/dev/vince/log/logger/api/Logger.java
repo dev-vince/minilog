@@ -2,15 +2,16 @@ package dev.vince.log.logger.api;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import dev.vince.log.MiniLog;
 import dev.vince.log.event.LoggerEvent;
 import dev.vince.log.event.LoggerEventEnum;
 import dev.vince.log.header.AbstractHeader;
 import dev.vince.log.header.impl.NoneHeader;
-import dev.vince.log.hook.HookManager;
 import dev.vince.log.logger.LoggingLevelEnum;
-import dev.vince.log.text.ParsingBean;
+import dev.vince.log.util.parse.ParsingBean;
 
 public class Logger {
     private final Builder builder;
@@ -25,8 +26,6 @@ public class Logger {
      */
     public Logger(final Builder builder) {
         this.builder = builder;
-        HookManager.getInstance().loadHooks();
-        LoggerManager.addLogger(this);
     }
 
     /**
@@ -94,6 +93,7 @@ public class Logger {
             for (final PrintStream output : builder.outputs) {
                 final LoggerEvent event = new LoggerEvent(LoggerEventEnum.PRE, this);
                 final ParsingBean bean = new ParsingBean();
+                
 
                 bean.setInput(message);
                 bean.setLogger(this);
@@ -101,10 +101,10 @@ public class Logger {
 
                 messageCount++;
 
-                HookManager.getInstance().callEvent(event);
+                MiniLog.getInstance().getEventBus().call(event);
                 output.println(builder.format.getFormat(bean));
                 event.setType(LoggerEventEnum.POST);
-                HookManager.getInstance().callEvent(event);
+                MiniLog.getInstance().getEventBus().call(event);
             }
         }
     }
@@ -206,14 +206,43 @@ public class Logger {
             return this;
         }
 
-        @Deprecated        
+        public Builder withoutOutput(final PrintStream output) {
+            this.outputs.remove(output);
+            return this;
+        }
+
+        public Builder withOutputs(final PrintStream... outputs) {
+            this.outputs.addAll(Arrays.asList(outputs));
+            return this;
+        }
+
+        public Builder withoutOutputs(final PrintStream... outputs) {
+            this.outputs.removeAll(Arrays.asList(outputs));
+            return this;
+        }
+
+        public Builder clearOutputs() {
+            this.outputs.clear();
+            return this;
+        }
+
+        @Deprecated
         public Builder withHeader(final AbstractHeader header) {
             this.header = header;
             return this;
         }
 
         public Logger build() {
-            return new Logger(this);
+            final Logger logger = new Logger(this);
+
+            MiniLog.getInstance().getCacheManager().addLogger(logger);
+
+            if(MiniLog.getInstance().getInternalLogger() != null) {
+                MiniLog.getInstance().getHookManager().loadHooks();
+                MiniLog.getInstance().getInternalLogger().info("Logger created with the name " + logger.builder.name);
+            }
+
+            return logger;
         }
     }
 
@@ -222,32 +251,22 @@ public class Logger {
     }
 
     public static Logger getLogger(final String name) {
-        return LoggerCacheManager.getInstance().hasLogger(name) ?
-                LoggerCacheManager.getInstance().getLogger(name) :
+        return MiniLog.getInstance().getCacheManager().hasLogger(name) ?
+                MiniLog.getInstance().getCacheManager().getLogger(name) :
                 Logger.createLogger().withName(name).build();
     }
 
-    public static class LoggerCacheManager {
-        private static final LoggerCacheManager instance = new LoggerCacheManager();
+    public static Logger getLoggerWithoutCreate(final String name) {
+        return MiniLog.getInstance().getCacheManager().getLogger(name);
+    }
 
+    public static class LoggerCacheManager {
         private final ArrayList<Logger> loggerCache = new ArrayList<>();
         
-        private LoggerCacheManager() {}
+        public LoggerCacheManager() {}
         
         public void addLogger(final Logger logger) {
             loggerCache.add(logger);
-        }
-
-        public void removeLogger(final Logger logger) {
-            loggerCache.remove(logger);
-        }
-
-        public void clearCache() {
-            loggerCache.clear();
-        }
-
-        public ArrayList<Logger> getCache() {
-            return loggerCache;
         }
 
         public boolean hasLogger(final String name){
@@ -256,10 +275,6 @@ public class Logger {
 
         public Logger getLogger(final String name) {
             return loggerCache.stream().filter(logger -> logger.getName().equals(name)).findFirst().orElse(null);
-        }
-
-        public static LoggerCacheManager getInstance() {
-            return instance;
         }
     }
 }

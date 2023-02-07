@@ -1,14 +1,16 @@
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
 
-import dev.vince.log.header.impl.CustomHeader;
-import dev.vince.log.logger.LoggingLevelEnum;
+import dev.vince.log.MiniLog;
 import dev.vince.log.logger.api.Logger;
-import dev.vince.log.logger.api.LoggerFormat;
-import dev.vince.log.text.TextFormattingEnum;
 
 public class LoggerTester {
     public static void main(String[] args) throws FileNotFoundException {
+        MiniLog.getInstance().enableInternalLogger();
+
+        final Logger logger = Logger.createLogger().withName("Logging Example").build();
+        logger.info("Logger created");
+        
+        /*
         final Logger newLogger = Logger.createLogger()
                 .withName("New Logger")
                 .build();
@@ -54,8 +56,9 @@ public class LoggerTester {
         logger.fatal("This is a fatal message", "This is another fatal message");
 
         logger.info("Line 1","Line 2","Line 3");
-        */
 
+        
         logger.error("This is an error message");
+        */
     }
 }

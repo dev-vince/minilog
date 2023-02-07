@@ -6,28 +6,29 @@ import java.util.Map;
 import best.azura.eventbus.core.EventBus;
 import best.azura.eventbus.handler.EventHandler;
 import best.azura.eventbus.handler.Listener;
+import dev.vince.log.MiniLog;
 import dev.vince.log.event.LoggerEvent;
 import dev.vince.log.hook.api.AbstractHook;
 import dev.vince.log.util.ClassUtil;
 
 public final class HookManager {
-    private static final EventBus eventBus = new EventBus();
-    private static final HookManager instance = new HookManager();
-
     private final Map<String, AbstractHook> hooks = new HashMap<>();
 
-    private HookManager() {
+    public HookManager(final EventBus eventBus) {
         eventBus.register(this);
     }
 
     public void loadHooks() {
         this.hooks.clear();
+
+        MiniLog.getInstance().getInternalLogger().info("Loading hooks...");
+        
         for (Class<?> clazz : ClassUtil.getClassesRunning()) {
             if (clazz.isAnnotationPresent(Hook.class)) {
                 try {
                     addHook((AbstractHook) clazz.newInstance());
                 } catch (final InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
+                    MiniLog.getInstance().getInternalLogger().error("Error while loading hook " + clazz.getName() + " : " + e.getMessage());
                 }
             }
         }
@@ -35,6 +36,7 @@ public final class HookManager {
 
     public void addHook(final AbstractHook hook) {
         hooks.put(hook.getName(), hook);
+        MiniLog.getInstance().getInternalLogger().info("Hook " + hook.getName() + " loaded.");
     }
 
     public AbstractHook getHook(final String name) {
@@ -53,18 +55,10 @@ public final class HookManager {
         hooks.clear();
     }
 
-    public void callEvent(final LoggerEvent event) {
-        eventBus.call(event);
-    }
-
     @EventHandler()
     private final Listener<LoggerEvent> loggerEventListener = e -> {
         for(final AbstractHook hook : hooks.values()) {
             hook.hook(e.getLogger(), e.getType());
         }
     };
-
-    public static HookManager getInstance() {
-        return instance;
-    }
 }

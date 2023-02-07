@@ -1,13 +1,13 @@
 package dev.vince.log.text.api;
 
-import dev.vince.log.text.ParsingBean;
+import dev.vince.log.util.parse.ParsingBean;
 
 public abstract class AbstractTextFormat {
     private final String name;
     private final String description;
     private final String key;
 
-    public AbstractTextFormat(final String name, final String description, final String key) {
+    protected AbstractTextFormat(final String name, final String description, final String key) {
         this.name = name;
         this.description = description;
         this.key = key;

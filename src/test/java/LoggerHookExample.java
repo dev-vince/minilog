@@ -2,7 +2,6 @@ import dev.vince.log.event.LoggerEventEnum;
 import dev.vince.log.hook.Hook;
 import dev.vince.log.hook.api.AbstractLoggerHook;
 import dev.vince.log.logger.api.Logger;
-import dev.vince.log.logger.api.LoggerManager;
 
 @Hook
 public class LoggerHookExample extends AbstractLoggerHook {
@@ -12,7 +11,7 @@ public class LoggerHookExample extends AbstractLoggerHook {
 
     @Override
     public void hook(final Logger logger, final LoggerEventEnum type) {
-        super.setLogger(LoggerManager.getLogger("Logger Example")); //This is the logger that will be hooked
+        super.setLogger(Logger.getLoggerWithoutCreate("Logger Example")); //This is the logger that will be hooked
 
         if(logger.equals(super.getLogger())){
             if(type == LoggerEventEnum.PRE){

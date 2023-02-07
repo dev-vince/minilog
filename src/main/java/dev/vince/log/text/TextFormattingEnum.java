@@ -32,16 +32,11 @@ public enum TextFormattingEnum {
     INPUT(InputFormat.class);
     
     private final Class<? extends AbstractTextFormat> clazz;
-    private final AbstractTextFormat instance;
+
+    private AbstractTextFormat instance;
 
     TextFormattingEnum(final Class<? extends AbstractTextFormat> clazz) {
         this.clazz = clazz;
-        try {
-            this.instance = clazz.newInstance();
-            FormattingCacheManager.registerFormat(instance);
-        } catch (final InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException("Error while creating a new instance of " + clazz.getName() + "!");
-        }
     }
 
     public final Class<? extends AbstractTextFormat> getClazz() {
@@ -57,20 +52,29 @@ public enum TextFormattingEnum {
         return instance.getKey();
     }
     
-    public class FormattingCacheManager {
-        private static final ArrayList<AbstractTextFormat> formatsCache = new ArrayList<>();
+    public static class FormattingCacheManager {
+        private final ArrayList<AbstractTextFormat> formatsCache = new ArrayList<>();
         
-        private FormattingCacheManager() {}
+        public FormattingCacheManager() {
+            for(TextFormattingEnum type : TextFormattingEnum.values()){
+                try {
+                    type.instance = type.clazz.newInstance();
+                    registerFormat(type.instance);
+                } catch (final InstantiationException | IllegalAccessException e) {
+                    throw new RuntimeException("Error while creating a new instance of " + type.clazz.getName() + "!");
+                }
+            }
+        }
 
-        public static void registerFormat(final AbstractTextFormat format) {
+        public void registerFormat(final AbstractTextFormat format) {
             formatsCache.add(format);
         }
         
-        public static List<AbstractTextFormat> getFormats() {
+        public List<AbstractTextFormat> getFormats() {
             return formatsCache;
         }
 
-        public static void clearFormats() {
+        public void clearFormats() {
             formatsCache.clear();
         }
     }

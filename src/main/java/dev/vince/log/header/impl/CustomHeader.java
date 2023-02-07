@@ -1,8 +1,8 @@
 package dev.vince.log.header.impl;
 
 import dev.vince.log.header.AbstractHeader;
-import dev.vince.log.text.ParsingBean;
-import dev.vince.log.util.StringParser;
+import dev.vince.log.util.parse.Parser;
+import dev.vince.log.util.parse.ParsingBean;
 
 public final class CustomHeader extends AbstractHeader {
     private String key;
@@ -16,7 +16,7 @@ public final class CustomHeader extends AbstractHeader {
     public String getHeader(final ParsingBean data) {
         data.setInput(key);
                 
-        return StringParser.parse(data).getInput();
+        return Parser.parse(data).getInput();
     }
 
     public final String getKey() {

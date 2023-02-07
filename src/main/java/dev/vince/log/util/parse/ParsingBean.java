@@ -1,4 +1,4 @@
-package dev.vince.log.text;
+package dev.vince.log.util.parse;
 
 import dev.vince.log.logger.LoggingLevelEnum;
 import dev.vince.log.logger.api.Logger;

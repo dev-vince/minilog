@@ -1,12 +1,13 @@
-package dev.vince.log.util;
+package dev.vince.log.util.parse;
 
-import dev.vince.log.text.ParsingBean;
-import dev.vince.log.text.TextFormattingEnum;
+import dev.vince.log.MiniLog;
 import dev.vince.log.text.api.AbstractTextFormat;
 
-public final class StringParser {
+public final class Parser {
+    private Parser(){}
+    
     public static ParsingBean parse(final ParsingBean data){
-        for(AbstractTextFormat type : TextFormattingEnum.FormattingCacheManager.getFormats()){
+        for(AbstractTextFormat type : MiniLog.getInstance().getFormattingCacheManager().getFormats()){
             data.setInput(data.getInput().replace(type.getKey(), type.getText(data)));
         }
 
@@ -15,7 +16,7 @@ public final class StringParser {
 
     public static ParsingBean parse(final ParsingBean data, final String key){
         String input = key;
-        for(AbstractTextFormat type : TextFormattingEnum.FormattingCacheManager.getFormats()){
+        for(AbstractTextFormat type : MiniLog.getInstance().getFormattingCacheManager().getFormats()){
             input = input.replace(type.getKey(), type.getText(data));
         }
 

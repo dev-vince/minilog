@@ -1,1 +1,1 @@
-Logger Example 16:31:3 2023-2-6     : This is an error message
+Logger Example 14:42:39 2023-2-7     : This is an error message

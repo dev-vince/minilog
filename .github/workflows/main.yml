@@ -1,0 +1,20 @@
+name: Deploy Javadoc
+
+on:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Java documenntation
+        uses: dev-vince/Javadoc-publisher.yml@1.0.7
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          javadoc-branch: main
+          java-version: 8
+          target-folder: docs 
+          sourcepath: ${basedir}/src/main/dev/vince/colorify/
